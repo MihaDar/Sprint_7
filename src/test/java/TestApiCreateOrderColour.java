@@ -8,20 +8,18 @@ import static io.restassured.RestAssured.given;
 @RunWith(Parameterized.class)
 public class TestApiCreateOrderColour extends Url {
     private final String[] colors;
-    private final int expectedStatusCode;
 
-    public TestApiCreateOrderColour(String[] colors, int expectedStatusCode) {
+    public TestApiCreateOrderColour(String[] colors) {
         this.colors = colors;
-        this.expectedStatusCode = expectedStatusCode;
     }
 
     @Parameterized.Parameters
     public static Object[][] getTestData() {
         return new Object[][]{
-                {new String[]{"BLACK"}, 201},
-                {new String[]{"GREY"}, 201},
-                {new String[]{"BLACK", "GREY"}, 201},
-                {new String[]{""}, 201},
+                {new String[]{"BLACK"}},
+                {new String[]{"GREY"}},
+                {new String[]{"BLACK", "GREY"}},
+                {new String[]{""}},
         };
     }
 
@@ -42,9 +40,8 @@ public class TestApiCreateOrderColour extends Url {
         int rentTime = 4;
         String deliveryDate = "2023-08-06";
         String comment = "Go Go Go";
-        String[] color = colors;
 
-        CreateOrder request = new CreateOrder(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
+        CreateOrder request = new CreateOrder(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, colors);
 
         int track = given()
                 .header("Content-type", "application/json")
@@ -52,7 +49,7 @@ public class TestApiCreateOrderColour extends Url {
                 .body(request)
                 .when()
                 .post("/api/v1/orders")
-                .then().assertThat().statusCode(expectedStatusCode)
+                .then().assertThat().statusCode(201)
 
                 .extract().body().path("track");
         given()

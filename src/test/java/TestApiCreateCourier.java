@@ -31,7 +31,6 @@ public class TestApiCreateCourier extends DataCourier {
 
     }
 
-
     @Test
     @DisplayName("Проверка создания дубликата курьера")
     @Description("Нельзя создать двух одинаковых курьеров. " +
@@ -54,21 +53,6 @@ public class TestApiCreateCourier extends DataCourier {
                         .post("/api/v1/courier");
         response.then().statusCode(409);
     }
-
-//    @Test
-//    @DisplayName("Проверка создание курьера")
-//    @Description("Чтобы создать курьера, нужно передать в ручку все обязательные поля. Запрос возвращает правильный код ответа 201")
-//
-//    public void createNewCourierWithAllFields() {
-//        Response response =
-//                given()
-//                        .header("Content-type", "application/json")
-//                        .and()
-//                        .body(request)
-//                        .when()
-//                        .post("/api/v1/courier");
-//        response.then().statusCode(201);
-//    }
 
     @Test
     @DisplayName("Проверка тела ответа при создании курьера")
